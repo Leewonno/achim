@@ -2,16 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface SigninState{
-    user_id:number,
-    user_name:string,
-    grade:string,
+    name:string,
     userid:string,
 }
 
 const initialState:SigninState = {
-    user_id:0,
-    user_name:'',
-    grade:'N',
+    name:'',
     userid:'',
 }
 
@@ -20,20 +16,14 @@ export const signinSlice = createSlice({
     initialState,
 
     reducers:{
-        setUserId:(state, action:PayloadAction<number>)=>{
-            state.user_id = action.payload;
+        setName:(state, action:PayloadAction<string>)=>{
+            state.name = action.payload;
         },
-        setUserName:(state, action:PayloadAction<string>)=>{
-            state.user_name = action.payload;
-        },
-        setGrade:(state, action:PayloadAction<string>)=>{
-            state.grade = action.payload;
-        },
-        setUserid:(state, action:PayloadAction<string>)=>{
+        setUserId:(state, action:PayloadAction<string>)=>{
             state.userid = action.payload;
         }
     }
 })
 
-export const {setUserId, setUserName, setGrade, setUserid} = signinSlice.actions;
+export const {setName, setUserId} = signinSlice.actions;
 export default signinSlice.reducer;

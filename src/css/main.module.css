@@ -53,6 +53,31 @@
 
 .date:hover{
     color: white;
+    animation: blink 2s forwards;
+}
+
+@keyframes blink {
+    0%{
+        color: #ffffff61;
+    }
+    25%{
+        color: white;
+    }
+    45%{
+        color: #ffffff61;
+    }
+    65%{
+        color: white;
+    }
+    85%{
+        color: #ffffff61;
+    }
+    95%{
+        color: white;
+    }
+    100%{
+        color: white;
+    }
 }
 
 .importantContainer{
@@ -187,4 +212,42 @@
 .addSiteText{
     margin-top: 5px;
     color: white;
+}
+
+.modalBox{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.addTitle{
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+
+.modalInput{
+    width: 100%;
+    height: 35px;
+    margin-bottom: 15px;
+    outline: none;
+    padding: 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+.modalSaveButton{
+    width: 100%;
+    height: 35px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFAA64;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
 }

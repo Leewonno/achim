@@ -10,10 +10,35 @@ import {
     faChevronDown,
     faPlus
 } from "@fortawesome/free-solid-svg-icons";
+import { collection, query, where, getDocs, addDoc, orderBy } from "firebase/firestore";
+import { db } from "../firebase"
+import { useAppSelector } from "../hook"
+import Modal from "react-modal";
 
 export default function Main(){
 
     const [time, setTime] = useState<string>("2023년 00월 00일 00시 00분");
+    const [site, setSite] = useState<any[]>([]);
+    const [siteName, setSiteName] = useState<string>("");
+    const [siteUrl, setSiteUrl] = useState<string>("");
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    const modalStyle = {
+        overlay: {
+            backgroundColor: "rgba(0,0,0,0.5)",
+            zIndex: 3,
+        },
+        content: {
+            margin: "auto",
+            width: "300px",
+            height: "360px",
+            padding: "25px",
+            overflow: "hidden",
+        },
+    }
+
+    const user = useAppSelector((state) => state.signin);
+    
 
     const currentTimer = () => {
         const date = new Date();
@@ -29,6 +54,67 @@ export default function Main(){
     useEffect(()=>{
         setInterval(currentTimer, 1000);
     }, [time])
+
+    useEffect(()=>{
+        setSite([]);
+        const getSite = async ()=>{
+            if(user.userid === ""){
+                console.log("로그인하지않은 이용자");
+            }else{
+                const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
+
+                const querySnapshot = await getDocs(q);
+                
+                querySnapshot.forEach((doc) => {
+                    const newArray = {
+                        name:doc.data().name,
+                        url:doc.data().url,
+                    }
+                    setSite((prev) => [...prev, newArray])
+                });
+            }
+        }
+        getSite()
+        
+    }, [])
+
+    const handleAddSiteKeyDown = (e:KeyboardEvent)=>{
+        if(e.key === "Enter"){
+            handleAddSite();
+        }
+    }
+
+    const handleAddSiteClick = ()=>{
+        handleAddSite();
+    }
+
+    const handleAddSite = async ()=>{
+        if(user.userid===""){
+            alert("로그인 후 이용해주세요.");
+        }else{
+            const res = await addDoc(collection(db, "site"), {
+                name: siteName,
+                userid: user.userid,
+                url: siteUrl,
+                createDate:Date.now(),
+            });
+
+            setSite([]);
+
+            const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
+            const querySnapshot = await getDocs(q);
+            
+            querySnapshot.forEach((doc) => {
+                const newArray = {
+                    name:doc.data().name,
+                    url:doc.data().url,
+                }
+                setSite((prev) => [...prev, newArray])
+            });
+
+            setIsOpen(false)
+        }  
+    }
 
     return(
         <>
@@ -68,21 +154,34 @@ export default function Main(){
             <section className={main.section} id="second">
                 <div className={main.secondSection}>
                     <div className={main.addSiteBox}>
-                        <div className={main.addSiteItem}>
-                            <a href="https://www.naver.com" target="_blank" className={main.addSiteAnchor}>
-                                <div className={main.addSiteFirst}>
-                                    카
+                        {site.map((value, index)=>{
+                            return(
+                                <div className={main.addSiteItem} key={index}>
+                                    <a href={value.url} target="_blank" className={main.addSiteAnchor}>
+                                        <div className={main.addSiteFirst}>
+                                            {value.name.charAt(0)}
+                                        </div>
+                                        <div className={main.addSiteName}>
+                                            {value.name}
+                                        </div>
+                                    </a>
                                 </div>
-                                <div className={main.addSiteName}>
-                                    카카오페이지
-                                </div>
-                            </a>
-                        </div>
-                        <div className={main.addSiteButton}>
+                            )
+                        })}
+                        
+                        <div className={main.addSiteButton} onClick={()=>setIsOpen(true)}>
                             <FontAwesomeIcon icon={faPlus} className={main.addSiteButtonIcon} />
                         </div>
                     </div>
                 </div>
+                <Modal isOpen={isOpen} ariaHideApp={false} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
+                    <div className={main.modalBox}>
+                        <div className={main.addTitle}>사이트 추가</div>
+                        <input className={main.modalInput} value={siteName} onChange={(e)=>setSiteName(e.target.value)} placeholder="이름   ex) 네이버" />
+                        <input className={main.modalInput} value={siteUrl} onKeyDown={(e)=>handleAddSiteKeyDown(e)} onChange={(e)=>setSiteUrl(e.target.value)} placeholder="URL   ex) http://www.naver.com" />
+                        <div className={main.modalSaveButton} onClick={handleAddSiteClick}>저장</div>
+                    </div>
+                </Modal>
             </section>
         </>
         
