@@ -8,9 +8,10 @@ import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChevronDown,
-    faPlus
+    faPlus,
+    faX
 } from "@fortawesome/free-solid-svg-icons";
-import { collection, query, where, getDocs, addDoc, orderBy } from "firebase/firestore";
+import { collection, query, where, getDocs, addDoc, orderBy, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase"
 import { useAppSelector } from "../hook"
 import Modal from "react-modal";
@@ -22,6 +23,7 @@ export default function Main(){
     const [siteName, setSiteName] = useState<string>("");
     const [siteUrl, setSiteUrl] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [siteColor, setSiteColor] = useState<string>("#ffffffe0");
 
     const modalStyle = {
         overlay: {
@@ -61,17 +63,7 @@ export default function Main(){
             if(user.userid === ""){
                 console.log("로그인하지않은 이용자");
             }else{
-                const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
-
-                const querySnapshot = await getDocs(q);
-                
-                querySnapshot.forEach((doc) => {
-                    const newArray = {
-                        name:doc.data().name,
-                        url:doc.data().url,
-                    }
-                    setSite((prev) => [...prev, newArray])
-                });
+                getSiteData();
             }
         }
         getSite()
@@ -91,29 +83,57 @@ export default function Main(){
     const handleAddSite = async ()=>{
         if(user.userid===""){
             alert("로그인 후 이용해주세요.");
-        }else{
+        }else if(siteName===""){
+            alert("사이트 이름을 입력해주세요.");
+        }else if(siteUrl==="" || siteUrl.indexOf('http') === -1){
+            alert("주소를 확인해주세요.\nhttp:// 가 포함되어야 합니다.");
+        }
+        else{
             const res = await addDoc(collection(db, "site"), {
                 name: siteName,
                 userid: user.userid,
                 url: siteUrl,
+                color: siteColor + "e0",
                 createDate:Date.now(),
+            });
+
+            // Set the "capital" field of the city 'DC'
+            await updateDoc(doc(db, "site", res.path.split('/')[1]), {
+                id: res.path.split('/')[1]
             });
 
             setSite([]);
 
-            const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
-            const querySnapshot = await getDocs(q);
-            
-            querySnapshot.forEach((doc) => {
-                const newArray = {
-                    name:doc.data().name,
-                    url:doc.data().url,
-                }
-                setSite((prev) => [...prev, newArray])
-            });
+            getSiteData();
 
+            setSiteName("");
+            setSiteUrl("");
+            setSiteColor("#ffffffe0")
             setIsOpen(false)
         }  
+    }
+
+    const handleSiteDelete = async (id:string)=>{
+        await deleteDoc(doc(db, "site", id));
+
+        setSite([]);
+
+        getSiteData();
+    }
+
+    const getSiteData = async ()=>{
+        const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
+        const querySnapshot = await getDocs(q);
+        
+        querySnapshot.forEach((doc) => {
+            const newArray = {
+                name:doc.data().name,
+                url:doc.data().url,
+                color:doc.data().color,
+                id:doc.data().id
+            }
+            setSite((prev) => [...prev, newArray])
+        });
     }
 
     return(
@@ -158,8 +178,9 @@ export default function Main(){
                             return(
                                 <div className={main.addSiteItem} key={index}>
                                     <a href={value.url} target="_blank" className={main.addSiteAnchor}>
-                                        <div className={main.addSiteFirst}>
+                                        <div className={main.addSiteFirst} style={{backgroundColor:value.color}}>
                                             {value.name.charAt(0)}
+                                            <FontAwesomeIcon icon={faX} className={main.itemDelete} onClick={()=>handleSiteDelete(value.id)} />
                                         </div>
                                         <div className={main.addSiteName}>
                                             {value.name}
@@ -179,6 +200,10 @@ export default function Main(){
                         <div className={main.addTitle}>사이트 추가</div>
                         <input className={main.modalInput} value={siteName} onChange={(e)=>setSiteName(e.target.value)} placeholder="이름   ex) 네이버" />
                         <input className={main.modalInput} value={siteUrl} onKeyDown={(e)=>handleAddSiteKeyDown(e)} onChange={(e)=>setSiteUrl(e.target.value)} placeholder="URL   ex) http://www.naver.com" />
+                        <div className={main.modalColorBox}>
+                            <div className={main.modalColorInfor} style={{backgroundColor:siteColor}}>{siteColor}</div>
+                            <input type="color" onChange={(e)=>setSiteColor(e.target.value)} />
+                        </div>
                         <div className={main.modalSaveButton} onClick={handleAddSiteClick}>저장</div>
                     </div>
                 </Modal>
