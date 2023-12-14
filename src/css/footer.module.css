@@ -20,7 +20,7 @@
 }
 
 .pageBox{
-
+    display: flex;
 }
 
 .pageAnchor{
@@ -29,7 +29,9 @@
 
 .page{
     color: white;
-    font-size: 14px;
+    font-size: 12px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .achimBox{
@@ -39,6 +41,5 @@
 .achimTitle{
     font-size: 25px;
     color: white;
-    font-weight: 600;
     font-family: 'Nanum Myeongjo', serif;
 }

@@ -8,10 +8,13 @@ export default function Footer(){
                 <div className={footer.pageBox}>
                     <Link to={'/notice'} className={footer.pageAnchor}>
                         <div className={footer.page}>공지사항</div>
-                    </Link>               
+                    </Link>
+                    <Link to={'/develop'} className={footer.pageAnchor}>
+                        <div className={footer.page}>개발노트</div>
+                    </Link>                  
                 </div>
                 <div className={footer.achimBox}>
-                    <div className={footer.achimTitle}>Achim 2023</div>
+                    <div className={footer.achimTitle}>Achim</div>
                 </div>
                 
             </div>

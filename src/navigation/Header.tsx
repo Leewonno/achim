@@ -29,7 +29,11 @@ export default function Header(){
                         <div className={header.signin}>로그인</div>
                     </Link>
                     :
-                    <div className={header.signin} onClick={handleLogout}>로그아웃</div>
+                    <>
+                        <div className={header.signName}>{user.name}님 환영합니다</div>
+                        <div className={header.signin} onClick={handleLogout}>로그아웃</div>
+                    </>
+                    
                 }    
                 </div>
             </div>       

@@ -11,19 +11,35 @@
     align-items: center;
 }
 
-.emptyBox{
+.developBox{
     width: 1000px;
     min-height: 500px;
     border-radius: 15px;
     border: 1px solid #e5e5e5;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    color: #c8c8c8;
+    flex-direction: column;
     box-shadow: 1px 1px 10px 1px rgba(80, 80, 80, 0.05);
+    padding: 20px;
 }
 
-.warningIcon{
-    margin-right: 10px;
+.title{
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.content{
+
+}
+
+.midTitle{
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.normalContent{
 }

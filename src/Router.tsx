@@ -5,6 +5,7 @@ import Main from './route/Main';
 import Signin from './route/Signin';
 import Signup from './route/Singup';
 import Notice from './route/Notice';
+import Develop from './route/Develop';
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
             {
                 path:"notice",
                 element:<Notice />
+            },
+            {
+                path:"develop",
+                element:<Develop />
             }
         ]
     },

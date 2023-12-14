@@ -27,13 +27,23 @@ export default function Signup(){
         }else if(nickname === ""){
             alert("닉네임을 입력해주세요.")
         }else{
-            const res = await createUserWithEmailAndPassword(auth, email, password);
+            try{
+                const res = await createUserWithEmailAndPassword(auth, email, password);
             
-            await setDoc(doc(db, "user", userid), {
-                name: name,
-                userid: userid,
-                nickname: nickname
-            });
+                await setDoc(doc(db, "user", userid), {
+                    name: name,
+                    userid: userid,
+                    nickname: nickname
+                });
+    
+                alert("환영합니다!")
+    
+                window.location.href = "/";
+            }
+            catch(err){
+                console.log(err);
+                alert(err);
+            }
         }
 
     }
