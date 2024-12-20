@@ -55,6 +55,7 @@
     border: 1px solid #a3a3a3;
     cursor: pointer;
     user-select: none;
+    font-size: 14px;
 }
 
 .signName{
