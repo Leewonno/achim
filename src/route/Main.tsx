@@ -178,10 +178,10 @@ export default function Main() {
               {site.map((value, index) => {
                 return (
                   <div className={main.addSiteItem} key={index}>
+                    <FontAwesomeIcon icon={faX} className={main.itemDelete} onClick={() => handleSiteDelete(value.id)} />
                     <a href={value.url} target="_blank" className={main.addSiteAnchor}>
                       <div className={main.addSiteFirst} style={{ backgroundColor: value.color }}>
                         {value.name.charAt(0)}
-                        <FontAwesomeIcon icon={faX} className={main.itemDelete} onClick={() => handleSiteDelete(value.id)} />
                       </div>
                       <div className={main.addSiteName}>
                         {value.name.length > 6 ? value.name.substr(0, 5) + "..." : value.name}

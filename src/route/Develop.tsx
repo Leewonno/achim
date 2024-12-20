@@ -5,6 +5,22 @@ export default function Develop(){
         <section className={develop.section}>
             <div className={develop.container}>
                 <div className={develop.developBox}>
+                    <div className={develop.title}>2024.12.20 개발노트</div>
+                    <div className={develop.content}>
+                        <div className={develop.midTitle}>변경사항</div>
+                        <li className={develop.normalContent}>도메인 / achim.store → achim.life</li>
+                        <li className={develop.normalContent}>사이트 등록 삭제 버튼 위치 개선</li>
+                        <li className={develop.normalContent}>사이트 등록 넓이 개선</li>
+                        <li className={develop.normalContent}>사이트 등록 사이트 이름 길이 개선</li>
+                        <li className={develop.normalContent}>개발노트 height 문제 개선</li>
+
+                        <div className={develop.midTitle}>추가</div>
+
+                        <div className={develop.midTitle}>제거</div>
+                        
+                    </div>
+                </div>
+                <div className={develop.developBox}>
                     <div className={develop.title}>2023.12.14 개발노트</div>
                     <div className={develop.content}>
                         <div className={develop.midTitle}>변경사항</div>

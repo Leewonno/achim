@@ -148,18 +148,22 @@
 }
 
 .itemDelete{
-    display: none;
+    position: absolute;
     padding: 3px 4px;
     background-color: white;
     border-radius: 50%;
     font-size: 7px;
     cursor: pointer;
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -6px;
+    right: 13px;
     transition: all 0.5s;
     border: 1px solid #ababab;
     z-index: 5;
+}
+
+.addSiteItem .itemDelete{
+    display: none;
 }
 
 .addSiteItem:hover .itemDelete{
@@ -183,6 +187,7 @@
 .addSiteItem{
     width: 90px;
     margin: 5px;
+    position: relative;
 }
 
 .addSiteAnchor{
