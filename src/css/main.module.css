@@ -24,7 +24,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../img/snow.jpg');
+    background-image: url('../img/bori.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -142,7 +142,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../img/winter.jpg');
+    background-image: url('../img/plants.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }
