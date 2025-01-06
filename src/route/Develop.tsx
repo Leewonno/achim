@@ -4,6 +4,13 @@ export default function Develop(){
     return(
         <section className={develop.section}>
             <div className={develop.container}>
+            <div className={develop.developBox}>
+                    <div className={develop.title}>2025.01.06 개발노트</div>
+                    <div className={develop.content}>
+                        <div className={develop.midTitle}>변경사항</div>
+                        <li className={develop.normalContent}>메인페이지 이미지 변경</li>
+                    </div>
+                </div>
                 <div className={develop.developBox}>
                     <div className={develop.title}>2024.12.20 개발노트</div>
                     <div className={develop.content}>
@@ -13,11 +20,6 @@ export default function Develop(){
                         <li className={develop.normalContent}>사이트 등록 넓이 개선</li>
                         <li className={develop.normalContent}>사이트 등록 사이트 이름 길이 개선</li>
                         <li className={develop.normalContent}>개발노트 height 문제 개선</li>
-
-                        <div className={develop.midTitle}>추가</div>
-
-                        <div className={develop.midTitle}>제거</div>
-                        
                     </div>
                 </div>
                 <div className={develop.developBox}>
