@@ -183,7 +183,6 @@ export default function Main() {
                       </div>
                       <div className={main.addSiteName}>
                         {value.name}
-                        {/* {value.name.length > 6 ? value.name.substr(0, 5) + "..." : value.name} */}
                       </div>
                     </a>
                   </div>
