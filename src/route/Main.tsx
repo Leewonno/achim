@@ -115,9 +115,7 @@ export default function Main() {
 
   const handleSiteDelete = async (id: string) => {
     await deleteDoc(doc(db, "site", id));
-
     setSite([]);
-
     getSiteData();
   }
 
@@ -184,7 +182,8 @@ export default function Main() {
                         {value.name.charAt(0)}
                       </div>
                       <div className={main.addSiteName}>
-                        {value.name.length > 6 ? value.name.substr(0, 5) + "..." : value.name}
+                        {value.name}
+                        {/* {value.name.length > 6 ? value.name.substr(0, 5) + "..." : value.name} */}
                       </div>
                     </a>
                   </div>

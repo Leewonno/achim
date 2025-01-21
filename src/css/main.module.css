@@ -219,9 +219,15 @@
 }
 
 .addSiteName{
+    width: 100%;
+    text-align: center;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin-top: 5px;
     color: white;
-    text-shadow: 2px 2px 15px #808080c4;
+    text-shadow: 2px 2px 15px #b5b5b5c4;
     font-weight: 600;
 }
 

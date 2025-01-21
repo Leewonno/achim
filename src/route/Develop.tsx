@@ -4,7 +4,15 @@ export default function Develop(){
     return(
         <section className={develop.section}>
             <div className={develop.container}>
-            <div className={develop.developBox}>
+                <div className={develop.developBox}>
+                    <div className={develop.title}>2025.01.21 개발노트</div>
+                    <div className={develop.content}>
+                        <div className={develop.midTitle}>변경사항</div>
+                        <li className={develop.normalContent}>페이지 이동 시 스크롤 맨 위로</li>
+                        <li className={develop.normalContent}>텍스트 overflow ellipsis로 수정</li>
+                    </div>
+                </div>
+                <div className={develop.developBox}>
                     <div className={develop.title}>2025.01.06 개발노트</div>
                     <div className={develop.content}>
                         <div className={develop.midTitle}>변경사항</div>
