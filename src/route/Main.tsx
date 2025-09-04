@@ -137,6 +137,7 @@ export default function Main() {
   return (
     <>
       <section className={main.section}>
+        <div className={main.bgSection}></div>
         <div className={main.firstSection}>
           <div className={main.dateBox}>
             <div className={main.date}>
