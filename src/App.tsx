@@ -10,21 +10,21 @@ import ScrollToTop from './navigation/ScrollTop'
 
 function App() {
 
-    let persistor = persistStore(store);
+  let persistor = persistStore(store);
 
-    return (
-        <>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <ScrollToTop />
-                <Header />
-                <Outlet />
-                <Footer />
-            </PersistGate>
-        </Provider>
-            
-        </>
-    )
+  return (
+    <>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ScrollToTop />
+          <Header />
+          <Outlet />
+          <Footer />
+        </PersistGate>
+      </Provider>
+
+    </>
+  )
 }
 
 export default App

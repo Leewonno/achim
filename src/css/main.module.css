@@ -80,14 +80,50 @@
     height: 100vh;
 }
 
-.bgSection{
+/* .bgSection{
     width: 100%;
     height: 100%;
     position: fixed;
     top: 0;
-    background-image: url('../img/city.jpg');
+    background-image: url('../img/winter2.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+} */
+
+.bgBox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.bgImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.noticeBox {
+    position: relative;
+    z-index: 9999;
+}
+
+.notice {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    position: absolute;
+
+    top: 100px;
+    left: 100px;
+    box-shadow: 1px 1px 3px 2px rgba(80, 80, 80, 0.05);
+}
+
+.close {
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    font-size: 25px;
 }
 
 .firstSection{
@@ -213,13 +249,13 @@
 .secondSection{
     width: 100%;
     height: 100%;
-    position: relative;
+    /* position: relative; */
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url('../img/bridge.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
+    /* background-image: url('../img/bridge.jpg'); */
+    /* background-repeat: no-repeat; */
+    /* background-size: cover; */
 }
 
 .itemDelete{

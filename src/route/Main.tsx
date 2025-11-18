@@ -4,10 +4,11 @@ import google from "../img/mobile_logo/google_edit_logo.png"
 import youtube from "../img/mobile_logo/youtube_edit_logo.png"
 import daum from "../img/mobile_logo/daum_edit_logo.png"
 import bing from "../img/mobile_logo/bing_edit_logo.png"
+import bg from "../img/winter2.jpg"
 import { KeyboardEvent, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faChevronDown,
+  // faChevronDown,
   faPlus,
   faX
 } from "@fortawesome/free-solid-svg-icons";
@@ -134,42 +135,58 @@ export default function Main() {
     });
   }
 
+  const [isClose, setIsClose] = useState<boolean>(false);
+
   return (
     <>
-      <section className={main.section}>
-        <div className={main.bgSection}></div>
+      <div className={main.bgBox}>
+        {isClose ?
+          <></> :
+          <div className={main.noticeBox}>
+            <div className={main.notice}>
+              <div className={main.close} onClick={() => setIsClose(true)}>x</div>
+              2025년 12월 1일부터 사이트 주소가 <a href="https://achim.my" target="_blank">achim.my</a>로 변경됩니다.<br />
+              계속 이용을 원하시는 분들은 홈페이지, 즐겨찾기(북마크) 등을 새로운 주소로 업데이트해 주세요.
+            </div>
+          </div>
+        }
+        <img className={main.bgImage} src={bg} />
+      </div>
+      {/* <section className={main.section}>
+        
         <div className={main.firstSection}>
           <div className={main.dateBox}>
             <div className={main.date}>
               {time}
             </div>
           </div>
-          <div className={main.importantContainer}>
-            <div className={main.importantSiteBox}>
-              <a className={main.siteLogoBox} href="https://www.naver.com" target="_blank">
-                <img className={main.siteLogo} src={naver} alt="네이버로고" />
-              </a>
-              <a className={main.siteLogoBox} href="https://www.google.com" target="_blank">
-                <img className={main.siteLogo} src={google} alt="구글로그" />
-              </a>
-              <a className={main.siteLogoBox} href="https://www.youtube.com" target="_blank">
-                <img className={main.siteLogo} src={youtube} alt="유튜브로그" />
-              </a>
-              <a className={main.siteLogoBox} href="https://www.daum.net" target="_blank">
-                <img className={main.siteLogo} src={daum} alt="다음로그" />
-              </a>
-              <a className={main.siteLogoBox} href="https://www.bing.com" target="_blank">
-                <img className={main.siteLogo} src={bing} alt="빙로그" />
-              </a>
-            </div>
-          </div>
+          
           <div className={main.scrollDownBox}>
             <a href="#second">
               <FontAwesomeIcon icon={faChevronDown} className={main.scrollDown} />
             </a>
           </div>
         </div>
-      </section>
+      </section> */}
+      <div className={main.importantContainer}>
+        <div className={main.importantSiteBox}>
+          <a className={main.siteLogoBox} href="https://www.naver.com" target="_blank">
+            <img className={main.siteLogo} src={naver} alt="네이버로고" />
+          </a>
+          <a className={main.siteLogoBox} href="https://www.google.com" target="_blank">
+            <img className={main.siteLogo} src={google} alt="구글로그" />
+          </a>
+          <a className={main.siteLogoBox} href="https://www.youtube.com" target="_blank">
+            <img className={main.siteLogo} src={youtube} alt="유튜브로그" />
+          </a>
+          <a className={main.siteLogoBox} href="https://www.daum.net" target="_blank">
+            <img className={main.siteLogo} src={daum} alt="다음로그" />
+          </a>
+          <a className={main.siteLogoBox} href="https://www.bing.com" target="_blank">
+            <img className={main.siteLogo} src={bing} alt="빙로그" />
+          </a>
+        </div>
+      </div>
       <section className={main.section} id="second">
         <div className={main.secondSection}>
           <div className={main.addSiteContainer}>
