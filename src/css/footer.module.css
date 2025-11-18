@@ -21,6 +21,7 @@
 
 .pageBox{
     display: flex;
+    gap: 5px;
 }
 
 .pageAnchor{

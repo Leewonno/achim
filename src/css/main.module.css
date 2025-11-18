@@ -259,7 +259,6 @@
 }
 
 .itemDelete{
-    position: absolute;
     padding: 3px 4px;
     background-color: white;
     border-radius: 50%;
@@ -289,6 +288,7 @@
 }
 
 .addSiteBox{
+    z-index: 1;
     display: flex;
     justify-content: flex-start;
     align-items: center;

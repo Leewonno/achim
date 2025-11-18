@@ -9,32 +9,32 @@ import Develop from './route/Develop';
 
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <App />,
-        children: [
-            {
-                path: "",
-                element: <Main />,
-            },
-            {
-                path:"signin",
-                element:<Signin />
-            },
-            {
-                path:"signup",
-                element:<Signup />
-            },
-            {
-                path:"notice",
-                element:<Notice />
-            },
-            {
-                path:"develop",
-                element:<Develop />
-            }
-        ]
-    },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "",
+        element: <Main />,
+      },
+      {
+        path: "signin",
+        element: <Signin />
+      },
+      {
+        path: "signup",
+        element: <Signup />
+      },
+      {
+        path: "notice",
+        element: <Notice />
+      },
+      {
+        path: "develop",
+        element: <Develop />
+      }
+    ]
+  },
 ]);
 
 export default router;

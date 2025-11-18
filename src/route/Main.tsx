@@ -206,7 +206,6 @@ export default function Main() {
                   </div>
                 )
               })}
-
               <div className={main.addSiteButton} onClick={() => setIsOpen(true)}>
                 <FontAwesomeIcon icon={faPlus} className={main.addSiteButtonIcon} />
               </div>
