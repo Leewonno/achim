@@ -1,0 +1,46 @@
+@import url(//fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+.nanummyeongjo * {
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.footer{
+    width: 100%;
+    position: relative;
+    background-color: white;
+}
+
+.container{
+    width: 100%;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    background-color: #0a1226;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.pageBox{
+    display: flex;
+    gap: 5px;
+}
+
+.pageAnchor{
+    text-decoration: none;
+}
+
+.page{
+    color: white;
+    font-size: 12px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.achimBox{
+    margin-top: 10px;
+}
+
+.achimTitle{
+    font-size: 25px;
+    color: white;
+    font-family: 'Nanum Myeongjo', serif;
+}

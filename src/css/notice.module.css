@@ -1,0 +1,29 @@
+.section{
+    width: 100%;
+    height: 100vh;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyBox{
+    width: 1000px;
+    min-height: 500px;
+    border-radius: 15px;
+    border: 1px solid #e5e5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #c8c8c8;
+    box-shadow: 1px 1px 10px 1px rgba(80, 80, 80, 0.05);
+}
+
+.warningIcon{
+    margin-right: 10px;
+}
