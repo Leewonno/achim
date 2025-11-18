@@ -22,7 +22,6 @@ function App() {
           <Footer />
         </PersistGate>
       </Provider>
-
     </>
   )
 }
