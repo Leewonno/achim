@@ -163,7 +163,6 @@ export default function Main() {
     }
   };
 
-
   // ================================================================
   // 사이트 삭제
   const handleSiteDelete = async (id: string) => {
