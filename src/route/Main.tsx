@@ -8,7 +8,6 @@ import bg from "../img/winter2.jpg"
 import { KeyboardEvent, useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  // faChevronDown,
   faPlus,
   faX
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,15 +15,43 @@ import { collection, query, where, getDocs, addDoc, orderBy, updateDoc, deleteDo
 import { db } from "../firebase"
 import { useAppSelector } from "../hook"
 import Modal from "react-modal";
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 
 export default function Main() {
 
   const [time, setTime] = useState<string>("2023년 00월 00일 00시 00분");
-  const [site, setSite] = useState<any[]>([]);
   const [siteName, setSiteName] = useState<string>("");
   const [siteUrl, setSiteUrl] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [siteColor, setSiteColor] = useState<string>("#ffffffe0");
+
+  const user = useAppSelector((state) => state.signin);
+
+  const getSiteData = async () => {
+    const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
+    const querySnapshot = await getDocs(q);
+    const result: any[] = [];
+
+    querySnapshot.forEach((doc) => {
+      result.push({
+        name: doc.data().name,
+        url: doc.data().url,
+        color: doc.data().color,
+        id: doc.data().id,
+      });
+    });
+    return result;
+  }
+
+  // queryClient
+  const queryClient = useQueryClient();
+
+  // get
+  const { data } = useQuery({
+    queryKey: ["site", user.userid],
+    queryFn: getSiteData,
+    enabled: user.userid != "",
+  });
 
   const modalStyle = {
     overlay: {
@@ -40,9 +67,6 @@ export default function Main() {
     },
   }
 
-  const user = useAppSelector((state) => state.signin);
-
-
   const currentTimer = () => {
     const date = new Date();
     const year = String(date.getFullYear());
@@ -50,26 +74,12 @@ export default function Main() {
     const day = String(date.getDate()).padStart(2, "0");
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
-    // const seconds = String(date.getSeconds()).padStart(2, "0");
     setTime(`${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`)
   }
 
   useEffect(() => {
     setInterval(currentTimer, 1000);
   }, [time])
-
-  useEffect(() => {
-    setSite([]);
-    const getSite = async () => {
-      if (user.userid === "") {
-        console.log("로그인하지않은 이용자");
-      } else {
-        getSiteData();
-      }
-    }
-    getSite()
-
-  }, [])
 
   const handleAddSiteKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -98,14 +108,11 @@ export default function Main() {
         createDate: Date.now(),
       });
 
-      // Set the "capital" field of the city 'DC'
       await updateDoc(doc(db, "site", res.path.split('/')[1]), {
         id: res.path.split('/')[1]
       });
-
-      setSite([]);
-
-      getSiteData();
+      // 캐시 갱신
+      queryClient.invalidateQueries({ queryKey: ["site", user.userid] });
 
       setSiteName("");
       setSiteUrl("");
@@ -116,23 +123,8 @@ export default function Main() {
 
   const handleSiteDelete = async (id: string) => {
     await deleteDoc(doc(db, "site", id));
-    setSite([]);
-    getSiteData();
-  }
-
-  const getSiteData = async () => {
-    const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
-    const querySnapshot = await getDocs(q);
-
-    querySnapshot.forEach((doc) => {
-      const newArray = {
-        name: doc.data().name,
-        url: doc.data().url,
-        color: doc.data().color,
-        id: doc.data().id
-      }
-      setSite((prev) => [...prev, newArray])
-    });
+    // 캐시 갱신
+    queryClient.invalidateQueries({ queryKey: ["site", user.userid] });
   }
 
   const [isClose, setIsClose] = useState<boolean>(false);
@@ -191,7 +183,7 @@ export default function Main() {
         <div className={main.secondSection}>
           <div className={main.addSiteContainer}>
             <div className={main.addSiteBox}>
-              {site.map((value, index) => {
+              {data?.map((value, index) => {
                 return (
                   <div className={main.addSiteItem} key={index}>
                     <FontAwesomeIcon icon={faX} className={main.itemDelete} onClick={() => handleSiteDelete(value.id)} />
