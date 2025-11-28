@@ -5,7 +5,7 @@ import youtube from "../img/mobile_logo/youtube_edit_logo.png"
 import daum from "../img/mobile_logo/daum_edit_logo.png"
 import bing from "../img/mobile_logo/bing_edit_logo.png"
 import bg from "../img/winter2.jpg"
-import { KeyboardEvent, useEffect, useState } from "react"
+import { KeyboardEvent, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
@@ -15,11 +15,13 @@ import { collection, query, where, getDocs, addDoc, orderBy, updateDoc, deleteDo
 import { db } from "../firebase"
 import { useAppSelector } from "../hook"
 import Modal from "react-modal";
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export default function Main() {
 
-  const [time, setTime] = useState<string>("2023년 00월 00일 00시 00분");
+  // ================================================================
+  // state, context
+  // const [time, setTime] = useState<string>("2023년 00월 00일 00시 00분");
   const [siteName, setSiteName] = useState<string>("");
   const [siteUrl, setSiteUrl] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -27,7 +29,9 @@ export default function Main() {
 
   const user = useAppSelector((state) => state.signin);
 
-  const getSiteData = async () => {
+  // ================================================================
+  // site list get
+  const getData = async () => {
     const q = query(collection(db, "site"), where("userid", "==", user.userid), orderBy("createDate", "asc"));
     const querySnapshot = await getDocs(q);
     const result: any[] = [];
@@ -43,16 +47,21 @@ export default function Main() {
     return result;
   }
 
+  // ================================================================
+  // tanstack query
   // queryClient
   const queryClient = useQueryClient();
 
   // get
   const { data } = useQuery({
     queryKey: ["site", user.userid],
-    queryFn: getSiteData,
+    queryFn: getData,
     enabled: user.userid != "",
+    staleTime: 1000 * 60 * 5,
   });
-
+  
+  // ================================================================
+  // 모달창 스타일
   const modalStyle = {
     overlay: {
       backgroundColor: "rgba(0,0,0,0.5)",
@@ -67,31 +76,76 @@ export default function Main() {
     },
   }
 
-  const currentTimer = () => {
-    const date = new Date();
-    const year = String(date.getFullYear());
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    setTime(`${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`)
-  }
+  // ================================================================
+  // 시간
+  // const currentTimer = () => {
+  //   const date = new Date();
+  //   const year = String(date.getFullYear());
+  //   const month = String(date.getMonth() + 1).padStart(2, "0");
+  //   const day = String(date.getDate()).padStart(2, "0");
+  //   const hours = String(date.getHours()).padStart(2, "0");
+  //   const minutes = String(date.getMinutes()).padStart(2, "0");
+  //   setTime(`${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`)
+  // }
 
-  useEffect(() => {
-    setInterval(currentTimer, 1000);
-  }, [time])
+  // useEffect(() => {
+  //   setInterval(currentTimer, 1000);
+  // }, [time])
 
+  // ================================================================
+  // 사이트 추가
   const handleAddSiteKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleAddSite();
+      onSubmit();
     }
   }
 
-  const handleAddSiteClick = () => {
-    handleAddSite();
+  function useCreateSite() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+      mutationFn: createSiteData,
+
+      // 성공 → 캐시 갱신
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["site", user.userid] });
+      },
+
+      // 에러 핸들링
+      onError: (err) => {
+        console.error("사이트 등록 중 오류", err);
+      },
+    });
   }
 
-  const handleAddSite = async () => {
+  const createSiteData = async ({ name, url, color, userid }: any) => {
+    // 1) 문서 추가
+    const res = await addDoc(collection(db, "site"), {
+      name,
+      userid,
+      url,
+      color: color + "e0",
+      createDate: Date.now(),
+    });
+
+    // 2) 문서 ID 업데이트
+    const id = res.path.split("/")[1];
+
+    await updateDoc(doc(db, "site", id), {
+      id,
+    });
+
+    setSiteName("");
+    setSiteUrl("");
+    setSiteColor("#ffffffe0")
+    setIsOpen(false)
+
+    return { id };
+  };
+
+  const { mutate, isPending } = useCreateSite();
+
+  const onSubmit = () => {
     if (user.userid === "") {
       alert("로그인 후 이용해주세요.");
     } else if (siteName === "") {
@@ -100,33 +154,26 @@ export default function Main() {
       alert("주소를 확인해주세요.\nhttp:// 가 포함되어야 합니다.");
     }
     else {
-      const res = await addDoc(collection(db, "site"), {
+      mutate({
         name: siteName,
         userid: user.userid,
         url: siteUrl,
-        color: siteColor + "e0",
-        createDate: Date.now(),
+        color: siteColor,
       });
-
-      await updateDoc(doc(db, "site", res.path.split('/')[1]), {
-        id: res.path.split('/')[1]
-      });
-      // 캐시 갱신
-      queryClient.invalidateQueries({ queryKey: ["site", user.userid] });
-
-      setSiteName("");
-      setSiteUrl("");
-      setSiteColor("#ffffffe0")
-      setIsOpen(false)
     }
-  }
+  };
 
+
+  // ================================================================
+  // 사이트 삭제
   const handleSiteDelete = async (id: string) => {
     await deleteDoc(doc(db, "site", id));
     // 캐시 갱신
     queryClient.invalidateQueries({ queryKey: ["site", user.userid] });
   }
 
+  // ================================================================
+  // 안내 팝업
   const [isClose, setIsClose] = useState<boolean>(false);
 
   return (
@@ -213,7 +260,9 @@ export default function Main() {
               <div className={main.modalColorInfor} style={{ backgroundColor: siteColor }}>{siteColor}</div>
               <input type="color" onChange={(e) => setSiteColor(e.target.value)} />
             </div>
-            <div className={main.modalSaveButton} onClick={handleAddSiteClick}>저장</div>
+            <button className={main.modalSaveButton} onClick={onSubmit} disabled={isPending}>
+              {isPending ? "저장 중" : "저장"}
+            </button>
           </div>
         </Modal>
       </section>
