@@ -5,6 +5,15 @@ export default function Develop() {
     <section className={develop.section}>
       <div className={develop.container}>
         <div className={develop.developBox}>
+          <div className={develop.title}>2025.11.28 개발노트</div>
+          <div className={develop.content}>
+            <div className={develop.midTitle}>변경사항</div>
+            <ul>
+              <li className={develop.normalContent}>메인페이지 TanStack Query 적용</li>
+            </ul>
+          </div>
+        </div>
+        <div className={develop.developBox}>
           <div className={develop.title}>2025.11.18 개발노트</div>
           <div className={develop.content}>
             <div className={develop.midTitle}>변경사항</div>
@@ -14,13 +23,11 @@ export default function Develop() {
               <li className={develop.normalContent}>도메인 achim.life → achim.my로 변경</li>
               <li className={develop.normalContent}>개발노트 페이지 li 들여쓰기 추가</li>
             </ul>
-
             <div className={develop.midTitle}>제거</div>
             <ul>
               <li className={develop.normalContent}>첫 번째 Section (시간 표시) 제거</li>
             </ul>
           </div>
-
         </div>
         <div className={develop.developBox}>
           <div className={develop.title}>2025.09.04 개발노트</div>
