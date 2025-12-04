@@ -343,8 +343,8 @@
 }
 
 .addSiteButton{
-    margin-left: 10px;
-    margin-right: 10px;
+    /* margin-left: 10px; */
+    /* margin-right: 10px; */
     width: 100px;
     display: flex;
     justify-content: center;

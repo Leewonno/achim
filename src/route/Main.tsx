@@ -173,12 +173,12 @@ export default function Main() {
 
   // ================================================================
   // 안내 팝업
-  const [isClose, setIsClose] = useState<boolean>(false);
+  // const [isClose, setIsClose] = useState<boolean>(false);
 
   return (
     <>
       <div className={main.bgBox}>
-        {isClose ?
+        {/* {isClose ?
           <></> :
           <div className={main.noticeBox}>
             <div className={main.notice}>
@@ -187,7 +187,7 @@ export default function Main() {
               계속 이용을 원하시는 분들은 홈페이지, 즐겨찾기(북마크) 등을 새로운 주소로 업데이트해 주세요.
             </div>
           </div>
-        }
+        } */}
         <img className={main.bgImage} src={bg} />
       </div>
       {/* <section className={main.section}>

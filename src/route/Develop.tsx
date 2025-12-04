@@ -5,6 +5,19 @@ export default function Develop() {
     <section className={develop.section}>
       <div className={develop.container}>
         <div className={develop.developBox}>
+          <div className={develop.title}>2025.12.04 개발노트</div>
+          <div className={develop.content}>
+            <div className={develop.midTitle}>변경사항</div>
+            <ul>
+              <li className={develop.normalContent}>Footer 저작권 표시 추가</li>
+            </ul>
+          </div>
+          <div className={develop.midTitle}>제거</div>
+            <ul>
+              <li className={develop.normalContent}>주소 변경 안내 팝업 제거</li>
+            </ul>
+        </div>
+        <div className={develop.developBox}>
           <div className={develop.title}>2025.11.28 개발노트</div>
           <div className={develop.content}>
             <div className={develop.midTitle}>변경사항</div>
