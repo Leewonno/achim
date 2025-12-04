@@ -13,8 +13,11 @@ export default function Footer() {
             <div className={footer.page}>개발노트</div>
           </Link>
         </div>
-        <div className={footer.achimBox}>
+        {/* <div className={footer.achimBox}>
           <div className={footer.achimTitle}>Achim</div>
+        </div> */}
+        <div className={footer.copyright}>
+          ⓒ 2025 Leewonno. All rights reserved.
         </div>
       </div>
     </footer>

@@ -44,3 +44,9 @@
     color: white;
     font-family: 'Nanum Myeongjo', serif;
 }
+
+.copyright {
+    margin-top: 0.5rem;
+    color : #fff;
+    font-size: 0.9rem
+}
