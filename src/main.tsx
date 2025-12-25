@@ -9,13 +9,15 @@ const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <TanStackDevtools plugins={[
-      {
-        name: 'TanStack Query',
-        render: <ReactQueryDevtoolsPanel />,
-        defaultOpen: true
-      },
-    ]} />
+    {import.meta.env.DEV && (
+      <TanStackDevtools plugins={[
+        {
+          name: 'TanStack Query',
+          render: <ReactQueryDevtoolsPanel />,
+          defaultOpen: true
+        },
+      ]} />)
+    }
     <RouterProvider router={router}></RouterProvider>
   </QueryClientProvider>
 )
